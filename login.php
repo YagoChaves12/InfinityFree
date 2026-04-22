@@ -6,19 +6,21 @@ include "conecta.php";
 $cpf = $_POST['cpf'];
 $senha = $_POST['senha'];
 
-// Consulta SQL insegura
-$sql = "SELECT * FROM aluno WHERE cpf = '$cpf' AND senha = '$senha'";
+$sql = "SELECT * FROM aluno 
+  WHERE cpf = :cpf AND senha = :senha";
 
 try {
-    // Executando a consulta
-    $resultado = $conexao->query($sql);
+    $stmt = $conexao->prepare($sql);
 
-    if ( $linha = $resultado->fetch() ) { // fetch() retorna false se não tiver linhas
+    $stmt->bindParam(':cpf', $cpf);
+    $stmt->bindParam(':senha', $senha);
+
+    $stmt->execute();
+}
+    if ( $linha = $stmt->fetch() ) {
+        //restante do código...
         echo "Login bem-sucedido!";
     } else {
-        echo "CPF ou senha incorretos.";
-    }
-} catch (PDOException $e) {
-    echo "Erro ao executar consulta: " . $e->getMessage();
-}
+        echo "CPF ou senha incorretos!";
+}   
 ?>
