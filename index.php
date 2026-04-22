@@ -4,7 +4,7 @@
   <head>
     <title>Login</title>
     <meta charset="utf-8">
-  </head>
+  </head>s
   <body>
     <form method="post" action="login.php">
       <label>CPF</label> 
